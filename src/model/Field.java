@@ -8,10 +8,8 @@ import model.food.FoodPoint;
 import java.util.Random;
 
 public class Field {
-    private static Random         random         = new Random();
     public final   int            MAX_X;
     public final   int            MAX_Y;
-    public final   double         DEAD_ZONE_FOOD = 0.1;
     public         QuadTree<Food> foodQuadTree;
 
     private Field() {

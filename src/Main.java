@@ -6,9 +6,7 @@ public class Main {
 
         Population population = Population.getInstance();
 
-        System.out.println( population );
-
-        population.startPopulation( 2 );
+        population.startPopulation( 100 );
 
         System.out.println( population );
     }

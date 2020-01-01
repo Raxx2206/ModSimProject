@@ -8,6 +8,10 @@ public class BlobPoint extends Point2D {
         super( x, y );
     }
 
+    public BlobPoint( Point2D point) {
+        super(point);
+    }
+
     public static BlobPoint randomPoint() {
         int x = 0, y = 0;
 

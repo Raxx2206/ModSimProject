@@ -7,13 +7,18 @@ import java.util.Random;
 
 public abstract class Point2D {
     protected static final Field  FIELD  = Field.getInstance();
-    protected static       Random random = new Random( );
+    protected static       Random random = new Random();
     protected              int    x;
     protected              int    y;
 
     public Point2D( int x, int y ) {
         setX( x );
         setY( y );
+    }
+
+    public Point2D( Point2D point ) {
+        x = point.getX();
+        y = point.getY();
     }
 
     public static int isLeftOrUp( int currentPos, int destinationPos ) {
@@ -28,27 +33,26 @@ public abstract class Point2D {
     }
 
     public static BlobPoint calcClosestBorder( Point2D pos ) {
-        int   x     = pos.getX();
-        int   y     = pos.getY();
-        Field field = Field.getInstance();
+        int x = pos.getX();
+        int y = pos.getY();
 
-        if ( x <= field.MAX_X - x
+        if ( x <= FIELD.MAX_X - x
              && x <= y
-             && x <= field.MAX_Y - y )                   //Left
+             && x <= FIELD.MAX_Y - y )                   //Left
             return new BlobPoint( 0, pos.getY() );
 
-        else if ( field.MAX_X - x <= x
-                  && field.MAX_X - x <= y
-                  && field.MAX_X - x <= field.MAX_Y - y )    //Right
-            return new BlobPoint( FIELD.MAX_X, pos.getY() );
+        else if ( FIELD.MAX_X - x <= x
+                  && FIELD.MAX_X - x <= y
+                  && FIELD.MAX_X - x <= FIELD.MAX_Y - y )    //Right
+            return new BlobPoint( Point2D.FIELD.MAX_X, pos.getY() );
 
-        else if ( y <= field.MAX_Y - y
+        else if ( y <= FIELD.MAX_Y - y
                   && y <= x
-                  && y <= field.MAX_X - x )                   //Bottom
+                  && y <= FIELD.MAX_X - x )                   //Bottom
             return new BlobPoint( pos.getX(), 0 );
 
         else
-            return new BlobPoint( pos.getX(), FIELD.MAX_Y ); //TOP
+            return new BlobPoint( pos.getX(), Point2D.FIELD.MAX_Y ); //TOP
 
 //        if ( field.MAX_Y - y <= y
 //             && field.MAX_Y - y <= x
@@ -59,6 +63,10 @@ public abstract class Point2D {
     @Override
     public boolean equals( Object obj ) {
         return getClass() == obj.getClass() && x == ((Point2D) obj).getX() && y == ((Point2D) obj).getY();
+    }
+
+    public boolean isAtHome(Point2D point) {
+        return x == point.getX() || y == point.getY();
     }
 
     public int getX() {

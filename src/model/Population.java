@@ -2,7 +2,7 @@ package model;
 
 import core.Blob;
 import model.blob.BlobPoint;
-import model.blob.NormalBlob;
+import model.blob.GreedyBlob;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Population extends ArrayList<Blob> {
     //TODO remove, just temporary solution
-    private static final int   DAYS = 2;
+    private static final int   DAYS = 100;
     private final static int   SIZE = 1000;
     private              Field field;
 
@@ -40,12 +40,19 @@ public class Population extends ArrayList<Blob> {
     public void startPopulation( int amount ) {
         // create start population
         for (int i = 0; i < amount; i++)
-             add( new NormalBlob( BlobPoint.randomPoint() ) );
+             add( new GreedyBlob( BlobPoint.randomPoint() ) );
 
         // main loop
         for (int i = 0; i < DAYS && size() > 0; i++) {
             actionPhase();
+
+            //TODO for debug
+            System.out.println( "=====================Day: " + i + "=====================" );
+            forEach( System.out::println );
+            System.out.println( '\n' );
+
             liveOrDeathPhase();
+
         }
 
     }
@@ -55,13 +62,11 @@ public class Population extends ArrayList<Blob> {
      */
     public void actionPhase() {
         field.generateRandomFood( 100 );
-        int            popCounter  = 0;
-        List<Blob>     k           = new ArrayList<>( this );
+        List<Blob>     k = new ArrayList<>( this );
         Iterator<Blob> kIter;
-        Blob           currentBlob = null;
+        Blob           currentBlob;
 
         while (!k.isEmpty()) {
-
             for (kIter = k.iterator(); kIter.hasNext(); ) {
                 currentBlob = kIter.next();
                 if ( currentBlob.getEnergy() > 0 && !currentBlob.isAtHome() ) {
@@ -80,13 +85,18 @@ public class Population extends ArrayList<Blob> {
         // remove death blobs
         removeIf( blob -> blob.getFoodCounter() < 1 || !blob.isAtHome() );
 
+        int counter = 0;
         // born new blobs
-        forEach( blob -> {
+        for (Blob blob : this) {
             if ( blob.getFoodCounter() > 1 )
-                add( new NormalBlob( BlobPoint.randomPoint() ) );
-        } );
+                ++counter;
+            blob.resetEnergy();
+            blob.setAtHome( false );
+            blob.resetFood();
+        }
 
-        forEach( Blob::resetEnergy );
+        for (int i = 0; i < counter; i++)
+             add( new GreedyBlob( BlobPoint.randomPoint() ) );
     }
 
     @Override
