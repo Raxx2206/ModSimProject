@@ -15,8 +15,13 @@ public class GreedyBlob extends Blob {
 
     @Override
     public void moveStrategy() {
-        if ( getEnergy() > energyToBorder() + energyCostPerMove() ) {
-            tryFindFood();
+        if ( foodCounter < 2 ) {
+            if ( getEnergy() > energyToBorder() + energyCostPerMove() ) {
+                tryFindFood();
+            } else {
+                if ( !atHome )
+                    goHome();
+            }
         } else {
             if ( !atHome )
                 goHome();

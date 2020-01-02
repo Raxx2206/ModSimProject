@@ -8,17 +8,14 @@ import model.food.Food;
 import model.food.FoodPoint;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Random;
-
 
 public abstract class Blob {
 
-    private final static Random  random       = new Random( 123 );
+    public static final  int     BASIC_ENERGY = 100;
+    public static final  double  BASIC_SPEED  = 1.;
+    public static final  double  BASIC_SIZE   = 1.;
+    public static final  double  BASIC_SENSE  = 1.;
     private final static Field   FIELD        = Field.getInstance();
-    public final         int     BASIC_ENERGY = 100;
-    public final         double  BASIC_SPEED  = 1.;
-    public final         double  BASIC_SIZE   = 1.;
-    public final         double  BASIC_SENSE  = 1.;
     private final        int     SCALE        = 10;
     protected            boolean atHome       = false;
     protected            int     stamina;
@@ -49,7 +46,7 @@ public abstract class Blob {
     }
 
     public static Point2D randomMove( Point2D currentPos, int moveDistance ) {
-        var angle = Math.random()*Math.PI*2;
+        var angle = Math.random() * Math.PI * 2;
 
         int x = (int) (Math.cos( angle ) * moveDistance);
         int y = (int) (Math.sin( angle ) * moveDistance);
@@ -104,11 +101,6 @@ public abstract class Blob {
                 stamina = 0;
             }
         }
-    }
-
-    private void setPos( Point2D point2D ) {
-        pos.setX( point2D.getX() );
-        pos.setY( point2D.getY() );
     }
 
     protected void goHome() {
@@ -177,6 +169,10 @@ public abstract class Blob {
         return atHome;
     }
 
+    public void setAtHome( boolean b ) {
+        atHome = b;
+    }
+
     public int getStamina() {
         return stamina;
     }
@@ -205,16 +201,17 @@ public abstract class Blob {
         return pos;
     }
 
+    private void setPos( Point2D point2D ) {
+        pos.setX( point2D.getX() );
+        pos.setY( point2D.getY() );
+    }
+
     public void resetEnergy() {
         energy = BASIC_ENERGY;
     }
 
     public void resetStamina() {
         stamina = (int) (SCALE * speed);
-    }
-
-    public void setAtHome( boolean b ) {
-        atHome = b;
     }
 
     public void resetFood() {

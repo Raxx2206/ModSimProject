@@ -1,4 +1,5 @@
 import model.Population;
+import model.blob.BlobFactory;
 
 public class Main {
 
