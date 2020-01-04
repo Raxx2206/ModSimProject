@@ -9,7 +9,7 @@ public class BlobFactory {
     private static final Random random = new Random();
 
     //Blob probabilities for generating
-    private double probabilityNormal        = 0.7;
+    private double probabilityNormal        = 0.0;
     private double probabilityGreedy        = 1.0;
     //mutation probabilities
     private double probabilityMutationSpeed = 0.5;

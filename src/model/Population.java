@@ -103,9 +103,7 @@ public class Population extends ArrayList<Blob> {
     public String toString() {
         StringBuilder builder = new StringBuilder( 32 );
 
-        forEach( blob -> builder.append( "[ " )
-                                .append( blob )
-                                .append( " ]\n" ) );
+        forEach( blob -> builder.append( "[ " ).append( blob ).append( " ]\n" ) );
 
         return builder.toString();
     }
