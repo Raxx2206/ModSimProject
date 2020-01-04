@@ -3,7 +3,7 @@ package model.food;
 import core.Point2D;
 
 public class FoodPoint extends Point2D {
-    private static final double DEAD_ZONE = 0.1;
+    private static final double DEAD_ZONE = 0.1;                        //Prevent food spawn in a 10% border of field
 
     public FoodPoint( int x, int y ) {
         super( x, y );

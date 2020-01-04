@@ -21,11 +21,13 @@ public abstract class Point2D {
         y = point.getY();
     }
 
+    //negative for destination left and lower than current pos || positive for right and higher than current pos
     public static int isLeftOrUp( int currentPos, int destinationPos ) {
         return destinationPos < currentPos ? -1 : 1;
     }
 
     public static Point2D moveTowardsPoint( Point2D currentPos, Point2D destinationPos, int moveDistance ) {
+        //calc which way the distance has to be travelled
         int newX = currentPos.getX() + isLeftOrUp( currentPos.getX(), destinationPos.getX() ) * moveDistance;
         int newY = currentPos.getY() + isLeftOrUp( currentPos.getY(), destinationPos.getY() ) * moveDistance;
 
@@ -38,21 +40,21 @@ public abstract class Point2D {
 
         if ( x <= FIELD.MAX_X - x
              && x <= y
-             && x <= FIELD.MAX_Y - y )                   //Left
+             && x <= FIELD.MAX_Y - y )                                   //Left
             return new BlobPoint( 0, pos.getY() );
 
         else if ( FIELD.MAX_X - x <= x
                   && FIELD.MAX_X - x <= y
-                  && FIELD.MAX_X - x <= FIELD.MAX_Y - y )    //Right
+                  && FIELD.MAX_X - x <= FIELD.MAX_Y - y )                //Right
             return new BlobPoint( Point2D.FIELD.MAX_X, pos.getY() );
 
         else if ( y <= FIELD.MAX_Y - y
                   && y <= x
-                  && y <= FIELD.MAX_X - x )                   //Bottom
+                  && y <= FIELD.MAX_X - x )                             //Bottom
             return new BlobPoint( pos.getX(), 0 );
 
         else
-            return new BlobPoint( pos.getX(), Point2D.FIELD.MAX_Y ); //TOP
+            return new BlobPoint( pos.getX(), Point2D.FIELD.MAX_Y );    //TOP
 
 //        if ( field.MAX_Y - y <= y
 //             && field.MAX_Y - y <= x

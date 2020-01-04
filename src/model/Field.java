@@ -23,6 +23,7 @@ public class Field {
         return Inner.field;
     }
 
+    //fill Field with 'amount' food objects
     public void generateRandomFood( int amount ) {
         Food food;
 

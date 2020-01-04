@@ -17,6 +17,7 @@ public abstract class Blob {
     public static final  double  BASIC_SENSE  = 1.;
     private final static Field   FIELD        = Field.getInstance();
     private final        int     SCALE        = 10;
+
     protected            boolean atHome       = false;
     protected            int     stamina;
     protected            int     energy;
@@ -26,6 +27,7 @@ public abstract class Blob {
     protected            int     foodCounter;
     protected            Point2D pos;
 
+    //Basic Constructor
     public Blob( Point2D pos ) {
         energy  = BASIC_ENERGY;
         speed   = BASIC_SPEED;
@@ -36,6 +38,7 @@ public abstract class Blob {
         this.pos = pos;
     }
 
+    //Constructor w/ parameters
     public Blob( int energy, double speed, double size, double sense, Point2D pos ) {
         this.energy = energy;
         this.speed  = speed;
@@ -58,16 +61,19 @@ public abstract class Blob {
         return (size * size * size) + (speed * speed) + sense;
     }
 
+    //determine if sense extends stamina
     protected int maxDistanceToGo() {
         return (int) Math.min( stamina, sense * SCALE );
     }
 
+
+    //Main move method
     public void move() {
         while (getStamina() > 0) {
-            if ( foodCounter == 0 ) { // init food search
+            if ( foodCounter == 0 ) {                       // init food search
                 tryFindFood();
             } else {
-                moveStrategy();
+                moveStrategy();                             // strategy implemented in children
             }
         }
 
@@ -81,22 +87,22 @@ public abstract class Blob {
     }
 
     protected void tryFindFood() {
-        Point<Food>[] nearestFood = getNearestFood();
+        Point<Food>[] nearestFood = getNearestFood();                           // Array of closest food sources in sight
 
-        if ( nearestFood.length == 0 ) { // random move if cant see food
+        if ( nearestFood.length == 0 ) {                                        // food not in sight --> random move
             int moveDistance = maxDistanceToGo();
             pos = randomMove( pos, moveDistance );
-//            pos = new BlobPoint( randomMove( pos, moveDistance ) );
+//            pos = new BlobPoint( randomMove( pos, moveDistance ) );  //TODO to be deleted?
 //            setPos(randomMove( pos, moveDistance ));
             stamina -= moveDistance;
-        } else { // can see food
-            Food   closestFood = closestFood( nearestFood );
+        } else {                                                                // food in sight --> move towards it
+            Food   closestFood = closestFood( nearestFood );                    // fetch closest Food out of List
             double distance    = pos.distanceSqrt( closestFood.getPos() );
 
-            if ( distance <= stamina ) { // eat food
+            if ( distance <= stamina ) {                                        // when food is in range for pick-up -> move & eat
                 pos = closestFood.getPos();
                 eat( closestFood, (int) distance );
-            } else { // go towards food
+            } else {                                                            // when food not in range --> move towards its location
                 pos     = Point2D.moveTowardsPoint( pos, closestFood.getPos(), getStamina() );
                 stamina = 0;
             }
@@ -104,7 +110,7 @@ public abstract class Blob {
     }
 
     protected void goHome() {
-        Point2D closestBorder = Point2D.calcClosestBorder( pos );
+        Point2D closestBorder = Point2D.calcClosestBorder( pos );               //fetch closest border as point
 
         // cant move out of bounds
         int moveDistance = (int) Math.min( pos.distanceSqrt( closestBorder ), getStamina() );
@@ -116,6 +122,7 @@ public abstract class Blob {
             atHome = true;
     }
 
+    //fetch neared Food in sight
     protected Point<Food>[] getNearestFood() {
         return FIELD.foodQuadTree.searchWithin( getPos().getX() - getSense() * SCALE,
                                                 getPos().getY() - getSense() * SCALE,
@@ -123,6 +130,7 @@ public abstract class Blob {
                                                 getPos().getY() + getSense() * SCALE );
     }
 
+    //return closest food obj out of foods in sight
     protected Food closestFood( Point<Food>[] food ) {
         if ( food.length == 0 )
             return null;
