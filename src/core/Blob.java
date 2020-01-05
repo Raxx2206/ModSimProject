@@ -11,21 +11,21 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class Blob {
 
-    public static final  int     BASIC_ENERGY = 100;
-    public static final  double  BASIC_SPEED  = 1.;
-    public static final  double  BASIC_SIZE   = 1.;
-    public static final  double  BASIC_SENSE  = 1.;
-    private final static Field   FIELD        = Field.getInstance();
-    private final        int     SCALE        = 10;
+    public static final  int    BASIC_ENERGY = 150;
+    public static final  double BASIC_SPEED  = 1.;
+    public static final  double BASIC_SIZE   = 1.;
+    public static final  double BASIC_SENSE  = 1.;
+    private final static Field  FIELD        = Field.getInstance();
+    private final        int    SCALE        = 10;
 
-    protected            boolean atHome       = false;
-    protected            int     stamina;
-    protected            int     energy;
-    protected            double  speed;
-    protected            double  size;
-    protected            double  sense;
-    protected            int     foodCounter;
-    protected            Point2D pos;
+    protected boolean atHome = false;
+    protected int     stamina;
+    protected int     energy;
+    protected double  speed;
+    protected double  size;
+    protected double  sense;
+    protected int     foodCounter;
+    protected Point2D pos;
 
     //Basic Constructor
     public Blob( Point2D pos ) {
@@ -48,7 +48,7 @@ public abstract class Blob {
         stamina     = (int) (SCALE * speed);
     }
 
-    public static Point2D randomMove( Point2D currentPos, int moveDistance ) {
+    private static Point2D randomMove( Point2D currentPos, int moveDistance ) {
         var angle = Math.random() * Math.PI * 2;
 
         int x = (int) (Math.cos( angle ) * moveDistance);
@@ -57,12 +57,12 @@ public abstract class Blob {
         return new BlobPoint( currentPos.getX() + x, currentPos.getY() + y );
     }
 
-    public double energyCostPerMove() {
+    protected double energyCostPerMove() {
         return (size * size * size) + (speed * speed) + sense;
     }
 
     //determine if sense extends stamina
-    protected int maxDistanceToGo() {
+    private int maxDistanceToGo() {
         return (int) Math.min( stamina, sense * SCALE );
     }
 
@@ -92,8 +92,6 @@ public abstract class Blob {
         if ( nearestFood.length == 0 ) {                                        // food not in sight --> random move
             int moveDistance = maxDistanceToGo();
             pos = randomMove( pos, moveDistance );
-//            pos = new BlobPoint( randomMove( pos, moveDistance ) );  //TODO to be deleted?
-//            setPos(randomMove( pos, moveDistance ));
             stamina -= moveDistance;
         } else {                                                                // food in sight --> move towards it
             Food   closestFood = closestFood( nearestFood );                    // fetch closest Food out of List
@@ -123,7 +121,7 @@ public abstract class Blob {
     }
 
     //fetch neared Food in sight
-    protected Point<Food>[] getNearestFood() {
+    private Point<Food>[] getNearestFood() {
         return FIELD.foodQuadTree.searchWithin( getPos().getX() - getSense() * SCALE,
                                                 getPos().getY() - getSense() * SCALE,
                                                 getPos().getX() + getSense() * SCALE,
@@ -131,11 +129,10 @@ public abstract class Blob {
     }
 
     //return closest food obj out of foods in sight
-    protected Food closestFood( Point<Food>[] food ) {
+    private Food closestFood( Point<Food>[] food ) {
         if ( food.length == 0 )
             return null;
 
-        // TODO check if food is in circle range
         Point  closestFood     = food[0];
         double closestDistance = pos.distanceNoSqrt( food[0].getValue().getPos() );
 
@@ -152,7 +149,7 @@ public abstract class Blob {
         return new Food( new FoodPoint( (int) closestFood.getX(), (int) closestFood.getY() ) );
     }
 
-    public int eat( @NotNull Food closestFood, int distance ) {
+    private int eat( @NotNull Food closestFood, int distance ) {
         energy += closestFood.ENERGY;
         stamina -= distance;
         FIELD.foodQuadTree.remove( closestFood.getPos().getX(), closestFood.getPos().getY() );
@@ -207,11 +204,6 @@ public abstract class Blob {
 
     public Point2D getPos() {
         return pos;
-    }
-
-    private void setPos( Point2D point2D ) {
-        pos.setX( point2D.getX() );
-        pos.setY( point2D.getY() );
     }
 
     public void resetEnergy() {

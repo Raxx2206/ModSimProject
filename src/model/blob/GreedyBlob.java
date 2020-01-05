@@ -26,5 +26,6 @@ public class GreedyBlob extends Blob {
             if ( !atHome )
                 goHome();
         }
+
     }
 }
