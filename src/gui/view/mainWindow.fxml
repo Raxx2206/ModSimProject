@@ -119,7 +119,7 @@
       <Insets />
    </opaqueInsets>
    <center>
-      <ScrollPane fitToWidth="true" BorderPane.alignment="CENTER">
+      <ScrollPane fitToWidth="true" pannable="true" vbarPolicy="ALWAYS" vvalue="0.39" BorderPane.alignment="CENTER">
          <content>
             <VBox>
                <children>
@@ -178,10 +178,19 @@
                            </yAxis>
                         </BarChart>
                      </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="80.0" />
+                     </padding>
                   </HBox>
                </children>
             </VBox>
          </content>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
       </ScrollPane>
    </center>
 </BorderPane>

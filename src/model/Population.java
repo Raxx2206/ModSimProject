@@ -41,6 +41,7 @@ public class Population extends ArrayList<Blob> {
      * start the simulation
      *
      * @param startPopulationSize starting population size
+     * @param days                how many days to simulate
      */
     public void startPopulation( int startPopulationSize, int days ) {
         // reset day counter
@@ -54,9 +55,9 @@ public class Population extends ArrayList<Blob> {
 
         // main loop
         for (int i = 0; i < days && size() > 0; i++) {
-            currentDay.set(i);
-            monitoring.populationSize(currentDay.get(), size());
-            monitoring.blobs(Inner.population, currentDay.get());
+            currentDay.set( i );
+            monitoring.populationSize( currentDay.get(), size() );
+            monitoring.blobs( Inner.population, currentDay.get() );
 
             actionPhase();
             liveOrDeathPhase();

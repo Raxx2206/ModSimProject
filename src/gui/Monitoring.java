@@ -3,6 +3,7 @@ package gui;
 import core.Blob;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import model.Population;
 import model.blob.NormalBlob;
@@ -18,7 +19,7 @@ public class Monitoring {
     private BarChart<String, Integer>        chartBlobTypeNormal, chartBlobTypeGreedy;
     private BarChart<String, Integer> chartMutationSpeed, chartMutationSize, chartMutationSense;
 
-    private DecimalFormat decimalFormat = new DecimalFormat( "#.00");
+    private DecimalFormat decimalFormat = new DecimalFormat( "#.00" );
 
     private Monitoring() {
     }
@@ -43,7 +44,6 @@ public class Monitoring {
         this.chartMutationSpeed = chartMutationSpeed;
         this.chartMutationSize  = chartMutationSize;
         this.chartMutationSense = chartMutationSense;
-
     }
 
     public void populationSize( int i, int size ) {

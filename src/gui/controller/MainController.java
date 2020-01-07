@@ -17,38 +17,38 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
     @FXML
-    private BarChart    chartMutationSize;
+    private BarChart<String, Integer>   chartMutationSize;
     @FXML
-    private BarChart    chartMutationSense;
+    private BarChart<String, Integer>   chartMutationSense;
     @FXML
-    private BarChart    chartBlobTypeGreedy;
+    private BarChart<String, Integer>   chartBlobTypeGreedy;
     @FXML
-    private BarChart    chartBlobTypeNormal;
+    private BarChart<String, Integer>   chartBlobTypeNormal;
     @FXML
-    private BarChart    chartMutationSpeed;
+    private BarChart<String, Integer>   chartMutationSpeed;
     @FXML
-    private TextField   inMutationSpeed;
+    private TextField                   inMutationSpeed;
     @FXML
-    private TextField   inMutationSize;
+    private TextField                   inMutationSize;
     @FXML
-    private TextField   inMutationSense;
+    private TextField                   inMutationSense;
     @FXML
-    private Button      btStartSimulation;
+    private Button                      btStartSimulation;
     @FXML
-    private TextField   inAmountDays;
+    private TextField                   inAmountDays;
     @FXML
-    private LineChart   chartPopulationSize;
-    private BlobFactory blobFactory;
-    private Population  population;
+    private LineChart<Integer, Integer> chartPopulationSize;
+    private BlobFactory                 blobFactory;
+    private Population                  population;
     @FXML
-    private Label       lbCurrentDay;
+    private Label                       lbCurrentDay;
     @FXML
-    private TextField   inPopulation;
+    private TextField                   inPopulation;
     @FXML
-    private TextField   inNormalBlob;
+    private TextField                   inNormalBlob;
     @FXML
-    private TextField   inGreedyBlob;
-    private Monitoring  monitoring;
+    private TextField                   inGreedyBlob;
+    private Monitoring                  monitoring;
 
     @Override
     public void initialize( URL url, ResourceBundle resourceBundle ) {
@@ -64,7 +64,7 @@ public class MainController implements Initializable {
                               chartBlobTypeGreedy,
                               chartMutationSpeed,
                               chartMutationSize,
-                              chartMutationSense);
+                              chartMutationSense );
     }
 
     public void startSimulation( ActionEvent actionEvent ) {
